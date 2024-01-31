@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
+import httpStatus from "http-status";
+import sendResponse from "../../../shared/sendResponse";
 import UserModel from "./user.model";
+import { UserServices } from "./user.services";
 
 export const createUser = async (req: Request, res: Response) => {
-  try {
-    const newUser = await UserModel.create(req.body);
-    res.status(201).json(newUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  const newUser = req.body;
+  const result = await UserServices.createUserService(newUser);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User Create Successfull",
+    data: result,
+  });
 };
 
 export const getUserById = async (req: Request, res: Response) => {
