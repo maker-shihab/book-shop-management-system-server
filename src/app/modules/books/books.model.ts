@@ -6,11 +6,11 @@ const bookSchema = new Schema<IBook>({
     type: String,
     required: true,
   },
-  author: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  // author: {
+  //   type: mongoose.Types.ObjectId,
+  //   ref: "User",
+  //   required: true,
+  // },
   description: {
     type: String,
     required: true,
