@@ -13,7 +13,6 @@ const login = catchAsync(async (req, res) => {
     message: "Login successfull",
     data: result,
   });
-  return result;
 });
 
 export const authController = {
