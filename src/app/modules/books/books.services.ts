@@ -8,7 +8,13 @@ const createBook = async (book: IBook): Promise<IBook> => {
     throw new ApiError(httpStatus.NOT_FOUND, "Book detaild not set");
   }
   const result = await BookModel.create(book);
-  // const bookWithAuthor = await BookModel.findById(bookId).populate('author');
+  return result;
+};
+const updateBook = async (book: IBook): Promise<IBook> => {
+  if (!book) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Book detaild not set");
+  }
+  const result = await BookModel.create(book);
   return result;
 };
 
@@ -19,5 +25,6 @@ const getAllBooks = async (): Promise<IBook[] | null> => {
 
 export const bookServices = {
   createBook,
+  updateBook,
   getAllBooks,
 };

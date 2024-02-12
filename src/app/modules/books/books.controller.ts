@@ -19,6 +19,20 @@ const createBook: RequestHandler = catchAsync(
   }
 );
 
+const updateBook: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const book = req.body;
+    const result = await bookServices.updateBook(book);
+
+    sendResponse<IBook>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      data: result,
+      message: "Book Create successfully",
+    });
+  }
+);
+
 const getAllBooks: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const books = await bookServices.getAllBooks();
@@ -34,5 +48,6 @@ const getAllBooks: RequestHandler = catchAsync(
 
 export const bookController = {
   createBook,
+  updateBook,
   getAllBooks,
 };
