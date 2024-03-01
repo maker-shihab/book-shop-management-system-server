@@ -1,4 +1,8 @@
 import express from "express";
+import { authController } from "./auth.controller";
 const router = express.Router();
 
-export const UserRoutes = router;
+router.post("/login", authController.login);
+router.post("/refresh-token", authController.refreshToken);
+
+export const AuthRouter = router;
