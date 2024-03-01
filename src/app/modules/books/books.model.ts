@@ -5,12 +5,13 @@ const bookSchema = new Schema<IBook>({
   title: {
     type: String,
     required: true,
+    unique: true,
   },
-  // author: {
-  //   type: mongoose.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
+  author: {
+    type: mongoose.Types.ObjectId,
+    ref: "UserModel",
+    required: true,
+  },
   description: {
     type: String,
     required: true,
@@ -26,6 +27,10 @@ const bookSchema = new Schema<IBook>({
     type: Number,
     required: true,
   },
+  bookCover: {
+    type: String,
+    required: true,
+  },
   isDonated: {
     type: Boolean,
     required: true,
@@ -34,6 +39,10 @@ const bookSchema = new Schema<IBook>({
     type: String,
     enum: Object.values(BookCondition),
     default: BookCondition.New,
+  },
+  publicCationDate: {
+    type: Date,
+    required: true,
   },
 });
 
