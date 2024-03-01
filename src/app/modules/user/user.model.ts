@@ -1,30 +1,29 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { IUser, UserInfo } from "./user.interface";
 
 const userSchema = new Schema<IUser>(
   {
     role: {
       type: String,
-      required: true,
     },
     password: { type: String, required: true },
     needsPasswordChange: { type: Boolean, required: true },
     passwordChangedAt: { type: Date },
     seller: {
       type: Schema.Types.ObjectId,
-      ref: "SellerModle",
+      ref: "Seller",
     },
     customer: {
       type: Schema.Types.ObjectId,
-      ref: "CustomerModle",
+      ref: "Customar",
     },
     donar: {
       type: Schema.Types.ObjectId,
-      ref: "DonarModle",
+      ref: "Donar",
     },
     admin: {
       type: Schema.Types.ObjectId,
-      ref: "AdminModle",
+      ref: "Admin",
     },
   },
   {
@@ -35,7 +34,7 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-const UserInfoSchema = new Schema<UserInfo>({
+export const UserInfoSchema = new Schema<UserInfo>({
   userName: {
     type: String,
     required: true,
@@ -71,6 +70,6 @@ const UserInfoSchema = new Schema<UserInfo>({
   },
 });
 
-const UserModel = model<IUser>("User", userSchema);
+const User = mongoose.model<IUser>("User", userSchema);
 
-export default UserModel;
+export default User;

@@ -1,7 +1,8 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { UserInfoSchema } from "../user/user.model";
 import { IAdmin } from "./admin.interface";
 
-const AdminModel = new Schema<IAdmin>({
+const adminSchema = new Schema<IAdmin>({
   name: {
     firstName: {
       type: String,
@@ -13,4 +14,11 @@ const AdminModel = new Schema<IAdmin>({
       type: String,
     },
   },
+  information: {
+    type: UserInfoSchema,
+  },
 });
+
+const Admin = mongoose.model("Admin", adminSchema);
+
+export default Admin;
