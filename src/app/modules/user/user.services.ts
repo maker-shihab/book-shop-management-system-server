@@ -1,56 +1,218 @@
-import bcrypt from "bcrypt";
 import httpStatus from "http-status";
-import config from "../../../config";
 import ApiError from "../../../errors/ApiError";
+import { hashPassword } from "../../../helpers/helper";
+import { IAdmin } from "../admin/admin.interface";
+import Admin from "../admin/admin.model";
+import { ICustomer } from "../customer/customar.interface";
+import Customar from "../customer/customar.model";
+import { IDonar } from "../donar/donar.interface";
+import Donar from "../donar/donar.model";
+import { ISeller } from "../seller/seller.interface";
+import Seller from "../seller/seller.model";
 import { IUser } from "./user.interface";
-import UserModel from "./user.model";
+import User from "./user.model";
 
-const createUserService = async (user: IUser): Promise<IUser | null> => {
-  // Password Hashing
-  const hashedPassword = await bcrypt.hash(
-    user.password,
-    Number(config.bycrypt_salt_rounds)
-  );
-  user.password = hashedPassword;
+const createSellerService = async (
+  seller: ISeller,
+  user: IUser
+): Promise<IUser | null> => {
+  let newUserAllData = null;
+  const session = await User.startSession();
+  session.startTransaction();
 
-  // For unique Field check
-  const uniqueFieldsQuery = {
-    $or: [
-      { userName: user.userName },
-      { email: user.email },
-      { phone: user.phone },
-    ],
-  };
+  try {
+    const hashedPassword = await hashPassword(user.password);
+    user.password = hashedPassword;
 
-  const existingUser = await UserModel.findOne(uniqueFieldsQuery);
+    user.role = "seller";
 
-  if (existingUser) {
-    const conflictingField =
-      existingUser.userName === user.userName
-        ? "User Name"
-        : existingUser.email === user.email
-        ? "Email"
-        : "Phone Number";
+    const newSeller = await Seller.create([seller], { session });
 
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      `${conflictingField} already exists`
-    );
+    if (!newSeller.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    user.seller = newSeller[0]._id;
+
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  }
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({
+      _id: newUserAllData._id,
+    }).populate({
+      path: "seller",
+    });
   }
 
-  const newUser = await UserModel.create(user);
-  return newUser;
+  return newUserAllData;
 };
 
-const getUserByIdService = async (userId: string): Promise<IUser | null> => {
+const createCustomarService = async (
+  customar: ICustomer,
+  user: IUser
+): Promise<IUser | null> => {
+  let newUserAllData = null;
+  const session = await User.startSession();
+  session.startTransaction();
+
   try {
-    const user = await UserModel.findById(userId);
-    return user;
+    const hashedPassword = await hashPassword(user.password);
+    user.password = hashedPassword;
+
+    user.role = "customar";
+
+    const newCustomar = await Customar.create([customar], { session });
+
+    if (!newCustomar.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    user.customar = newCustomar[0]._id;
+
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  }
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({
+      _id: newUserAllData._id,
+    }).populate({
+      path: "customar",
+    });
+  }
+
+  return newUserAllData;
+};
+
+const createDonarService = async (
+  donar: IDonar,
+  user: IUser
+): Promise<IUser | null> => {
+  let newUserAllData = null;
+  const session = await User.startSession();
+  session.startTransaction();
+
+  try {
+    const hashedPassword = await hashPassword(user.password);
+    user.password = hashedPassword;
+
+    user.role = "donar";
+
+    const newDonar = await Donar.create([donar], { session });
+
+    if (!newDonar.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    user.donar = newDonar[0]._id;
+
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  }
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({
+      _id: newUserAllData._id,
+    }).populate({
+      path: "donar",
+    });
+  }
+
+  return newUserAllData;
+};
+
+const createAdminService = async (
+  admin: IAdmin,
+  user: IUser
+): Promise<IUser | null> => {
+  let newUserAllData = null;
+  const session = await User.startSession();
+  session.startTransaction();
+
+  try {
+    const hashedPassword = await hashPassword(user.password);
+    user.password = hashedPassword;
+
+    user.role = "admin";
+
+    const newAdmin = await Admin.create([admin], { session });
+
+    if (!newAdmin.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    user.admin = newAdmin[0]._id;
+
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+    }
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  }
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({
+      _id: newUserAllData._id,
+    }).populate({
+      path: "admin",
+    });
+  }
+
+  return newUserAllData;
+};
+
+const getAllCustomar = async () => {
+  try {
+    const users = await Customar.find();
+    return users;
   } catch (error) {
     throw new Error("Failed to fetch user by ID");
   }
 };
+
 export const UserServices = {
-  createUserService,
-  getUserByIdService,
+  createSellerService,
+  createCustomarService,
+  createDonarService,
+  createAdminService,
+  getAllCustomar,
 };

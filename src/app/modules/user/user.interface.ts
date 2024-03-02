@@ -6,12 +6,12 @@ import { ISeller } from "../seller/seller.interface";
 
 export interface IUser extends Document {
   _id: Types.ObjectId;
-  role: string;
+  role?: string;
   password: string;
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
   seller?: Types.ObjectId | ISeller;
-  customer?: Types.ObjectId | ICustomer;
+  customar?: Types.ObjectId | ICustomer;
   donar?: Types.ObjectId | IDonar;
   admin?: Types.ObjectId | IAdmin;
 }
