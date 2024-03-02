@@ -3,7 +3,7 @@ import { UserInfo, UserName } from "../user/user.interface";
 
 export interface ICustomer extends Document {
   _id: Types.ObjectId;
-  credit: number;
   name: UserName;
+  balance?: number;
   information: UserInfo;
 }

@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 import { hashPassword } from "../../../helpers/helper";
 import { IAdmin } from "../admin/admin.interface";
+import Admin from "../admin/admin.model";
 import { ICustomer } from "../customer/customar.interface";
 import Customar from "../customer/customar.model";
 import { IDonar } from "../donar/donar.interface";
@@ -78,7 +79,7 @@ const createCustomarService = async (
       throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
     }
 
-    user.customer = newCustomar[0]._id;
+    user.customar = newCustomar[0]._id;
 
     const newUser = await User.create([user], { session });
 
@@ -166,13 +167,13 @@ const createAdminService = async (
 
     user.role = "admin";
 
-    const newAdmin = await Seller.create([admin], { session });
+    const newAdmin = await Admin.create([admin], { session });
 
     if (!newAdmin.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
     }
 
-    user.seller = newAdmin[0]._id;
+    user.admin = newAdmin[0]._id;
 
     const newUser = await User.create([user], { session });
 

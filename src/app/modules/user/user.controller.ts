@@ -44,7 +44,7 @@ export const createDonar = async (req: Request, res: Response) => {
 };
 
 export const createAdmin = async (req: Request, res: Response) => {
-  const { admin, newUser } = req.body;
+  const { admin, ...newUser } = req.body;
 
   const result = await UserServices.createAdminService(admin, newUser);
 
@@ -72,4 +72,7 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const UserController = {
   createSeller,
+  createAdmin,
+  createCustomar,
+  createDonar,
 };

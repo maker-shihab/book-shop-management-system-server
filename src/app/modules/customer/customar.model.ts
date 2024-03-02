@@ -14,11 +14,14 @@ const customarSchema = new Schema<ICustomer>({
       type: String,
     },
   },
+  balance: {
+    type: Number,
+  },
   information: {
     type: UserInfoSchema,
   },
 });
 
-const Customar = mongoose.model("Customar", customarSchema);
+const Customar = mongoose.model<ICustomer>("Customar", customarSchema);
 
 export default Customar;

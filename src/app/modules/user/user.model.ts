@@ -13,7 +13,7 @@ const userSchema = new Schema<IUser>(
       type: Schema.Types.ObjectId,
       ref: "Seller",
     },
-    customer: {
+    customar: {
       type: Schema.Types.ObjectId,
       ref: "Customar",
     },

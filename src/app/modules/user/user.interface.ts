@@ -11,7 +11,7 @@ export interface IUser extends Document {
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
   seller?: Types.ObjectId | ISeller;
-  customer?: Types.ObjectId | ICustomer;
+  customar?: Types.ObjectId | ICustomer;
   donar?: Types.ObjectId | IDonar;
   admin?: Types.ObjectId | IAdmin;
 }
