@@ -200,10 +200,10 @@ const createAdminService = async (
   return newUserAllData;
 };
 
-const getUserByIdService = async (userId: string): Promise<IUser | null> => {
+const getAllCustomar = async () => {
   try {
-    const user = await User.findById(userId);
-    return user;
+    const users = await Customar.find();
+    return users;
   } catch (error) {
     throw new Error("Failed to fetch user by ID");
   }
@@ -214,5 +214,5 @@ export const UserServices = {
   createCustomarService,
   createDonarService,
   createAdminService,
-  getUserByIdService,
+  getAllCustomar,
 };
