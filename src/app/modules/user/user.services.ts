@@ -29,7 +29,7 @@ const createSellerService = async (
     const newSeller = await Seller.create([seller], { session });
 
     if (!newSeller.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create seller");
     }
 
     user.seller = newSeller[0]._id;
@@ -37,7 +37,7 @@ const createSellerService = async (
     const newUser = await User.create([user], { session });
 
     if (!newUser.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create faculty");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create seller");
     }
 
     newUserAllData = newUser[0];

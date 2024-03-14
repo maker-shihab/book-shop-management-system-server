@@ -34,8 +34,16 @@ const getAllBooks = async (): Promise<IBook[] | null> => {
   return books;
 };
 
+const buyBook = async (customerId: string, bookInfo: IBook) => {
+  if(!customerId && bookInfo) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Something wrong, please try again");
+  }
+  
+}
+
 export const bookServices = {
   createBook,
   updateBook,
   getAllBooks,
+  buyBook
 };

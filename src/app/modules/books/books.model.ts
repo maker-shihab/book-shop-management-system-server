@@ -9,7 +9,7 @@ const bookSchema = new Schema<IBook>({
   },
   author: {
     type: mongoose.Types.ObjectId,
-    ref: "UserModel",
+    ref: "User",
     required: true,
   },
   description: {

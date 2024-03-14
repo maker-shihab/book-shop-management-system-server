@@ -10,6 +10,7 @@ export interface IBook {
   price?: number;
   inStock: number;
   bookCover: string;
+  bookStatus?: BookStatus;
   isDonated: boolean;
   bookCondition: BookCondition;
   publicCationDate: Date;
@@ -18,4 +19,10 @@ export interface IBook {
 export enum BookCondition {
   New = "New",
   SecondHand = "SecondHand",
+}
+
+export enum BookStatus {
+  Active = "Active",
+  Pending = "Pending",
+  Privet = "Privet",
 }

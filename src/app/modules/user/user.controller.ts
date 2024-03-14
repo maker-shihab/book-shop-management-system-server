@@ -9,6 +9,8 @@ export const createSeller = async (req: Request, res: Response) => {
 
   const result = await UserServices.createSellerService(seller, userData);
 
+  // const {password, ...usesrAllInfo} = result;
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
