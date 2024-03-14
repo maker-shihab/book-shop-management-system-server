@@ -52,12 +52,26 @@ const buyBook = catchAsync(async(req: Request, res: Response) => {
   const {customarId, bookInfo} = data;
  
   const result = await bookServices.buyBook(customarId, bookInfo);
-
+  return result;
 })
+
+const updateBookStatus = catchAsync(async(req: Request, res: Response) => {
+  const { bookId } = req.params;
+  const { status } = req.body;
+  const result = await bookServices.updateBookStatus(bookId, status);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    data: result,
+    message: "Book status update successfull",
+  });
+});
 
 export const bookController = {
   createBook,
   updateBook,
   getAllBooks,
-  buyBook
+  buyBook,
+  updateBookStatus
 };

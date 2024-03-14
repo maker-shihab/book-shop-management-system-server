@@ -24,5 +24,5 @@ export enum BookCondition {
 export enum BookStatus {
   Active = "Active",
   Pending = "Pending",
-  Privet = "Privet",
+  Rejected = "Rejected",
 }
