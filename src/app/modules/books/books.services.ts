@@ -46,13 +46,17 @@ const updateBookStatus = async (bookId: string, status: BookStatus) => {
   if (!bookId || status) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Missing required fields: bookId and status");
   }
+  const findBook = BookModel.findById(bookId);
+  if (!findBook){
+    throw new ApiError(httpStatus.BAD_REQUEST, "Book not found for update status");
+  }
   const updatedBook = await BookModel.findByIdAndUpdate(
     bookId,
     { status },
     { new: true } 
   );
 
-  return updateBook;
+  return updatedBook;
 }
 
 export const bookServices = {

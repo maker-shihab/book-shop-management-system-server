@@ -53,7 +53,7 @@ const buyBook = catchAsync(async(req: Request, res: Response) => {
  
   const result = await bookServices.buyBook(customarId, bookInfo);
   return result;
-})
+});
 
 const updateBookStatus = catchAsync(async(req: Request, res: Response) => {
   const { bookId } = req.params;
