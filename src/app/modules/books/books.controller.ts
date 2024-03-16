@@ -4,7 +4,6 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import { IBook } from "./books.interface";
 import { bookServices } from "./books.services";
-import ApiError from "../../../errors/ApiError";
 
 const createBook: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -47,15 +46,15 @@ const getAllBooks: RequestHandler = catchAsync(
   }
 );
 
-const buyBook = catchAsync(async(req: Request, res: Response) => {
+const buyBook = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
-  const {customarId, bookInfo} = data;
- 
+  const { customarId, bookInfo } = data;
+
   const result = await bookServices.buyBook(customarId, bookInfo);
   return result;
 });
 
-const updateBookStatus = catchAsync(async(req: Request, res: Response) => {
+const updateBookStatus = catchAsync(async (req: Request, res: Response) => {
   const { bookId } = req.params;
   const { status } = req.body;
   const result = await bookServices.updateBookStatus(bookId, status);
@@ -73,5 +72,5 @@ export const bookController = {
   updateBook,
   getAllBooks,
   buyBook,
-  updateBookStatus
+  updateBookStatus,
 };
