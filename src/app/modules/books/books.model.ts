@@ -8,8 +8,8 @@ const bookSchema = new Schema<IBook>({
     unique: true,
   },
   author: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
+    type: Schema.Types.ObjectId,
+    ref: "Seller",
     required: true,
   },
   description: {
@@ -46,6 +46,6 @@ const bookSchema = new Schema<IBook>({
   },
 });
 
-const BookModel = mongoose.model("Book", bookSchema);
+const BookModel = mongoose.model<IBook>("Book", bookSchema);
 
 export default BookModel;

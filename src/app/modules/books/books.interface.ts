@@ -1,10 +1,10 @@
-import mongoose, { Types } from "mongoose";
-import { IUser } from "../user/user.interface";
+import { Types } from "mongoose";
+import { ISeller } from "../seller/seller.interface";
 
-export interface IBook {
+export interface IBook extends Document {
   _id: Types.ObjectId;
   title: string;
-  author: mongoose.Types.ObjectId | IUser;
+  author?: Types.ObjectId | ISeller;
   description: string;
   category: string;
   price?: number;
