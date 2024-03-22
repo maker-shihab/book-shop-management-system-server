@@ -6,6 +6,14 @@ const userSchema = new Schema<IUser>(
     role: {
       type: String,
     },
+    userName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
     password: { type: String, required: true },
     needsPasswordChange: { type: Boolean, required: true },
     passwordChangedAt: { type: Date },
@@ -35,14 +43,6 @@ const userSchema = new Schema<IUser>(
 );
 
 export const UserInfoSchema = new Schema<UserInfo>({
-  userName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
   phone: {
     type: String,
     required: true,

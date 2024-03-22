@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
+import ApiError from "../../../errors/ApiError";
 import sendResponse from "../../../shared/sendResponse";
 import User from "./user.model";
 import { UserServices } from "./user.services";
@@ -72,9 +73,27 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
+const getUserProfileData = async (req: Request, res: Response) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "User not exist");
+  }
+  const result = await UserServices.getUserProfileData(token);
+
+  const { ...userData } = result;
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User rettrive Successfull",
+    data: userData,
+  });
+};
+
 export const UserController = {
   createSeller,
   createAdmin,
   createCustomar,
   createDonar,
+  getUserProfileData,
 };

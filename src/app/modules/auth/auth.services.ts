@@ -4,7 +4,7 @@ import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import ApiError from "../../../errors/ApiError";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
-import UserModel from "../user/user.model";
+import { default as User, default as UserModel } from "../user/user.model";
 import {
   ILoginUser,
   ILoginUserResponse,
@@ -67,7 +67,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   const { userId } = verifiedToken;
 
   // Check if the user exists
-  const isUserExist = await UserModel.findById(userId);
+  const isUserExist = await User.findById(userId);
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");

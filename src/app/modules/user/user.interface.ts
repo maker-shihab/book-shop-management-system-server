@@ -7,6 +7,8 @@ import { ISeller } from "../seller/seller.interface";
 export interface IUser extends Document {
   _id: Types.ObjectId;
   role?: string;
+  userName: string;
+  email: string;
   password: string;
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
@@ -23,8 +25,6 @@ export type UserName = {
 };
 
 export type UserInfo = {
-  userName: string;
-  email: string;
   phone: string;
   dateOfBirth?: Date;
   profileImage?: string;

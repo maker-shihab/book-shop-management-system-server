@@ -1,16 +1,12 @@
 import express from "express";
-import {
-  createAdmin,
-  createCustomar,
-  createDonar,
-  createSeller,
-} from "./user.controller";
+import { UserController } from "./user.controller";
 
 const router = express.Router();
 
-router.post("/admin", createAdmin);
-router.post("/customar", createCustomar);
-router.post("/seller", createSeller);
-router.post("/donar", createDonar);
+router.post("/admin", UserController.createAdmin);
+router.post("/customar", UserController.createCustomar);
+router.post("/seller", UserController.createSeller);
+router.post("/donar", UserController.createDonar);
+router.get("/profile/:id", UserController.getUserProfileData);
 
 export const UserRoutes = router;

@@ -1,6 +1,9 @@
 import httpStatus from "http-status";
+import { Secret } from "jsonwebtoken";
+import config from "../../../config";
 import ApiError from "../../../errors/ApiError";
 import { hashPassword } from "../../../helpers/helper";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import { IAdmin } from "../admin/admin.interface";
 import Admin from "../admin/admin.model";
 import { ICustomer } from "../customer/customar.interface";
@@ -200,13 +203,36 @@ const createAdminService = async (
   return newUserAllData;
 };
 
-const getAllCustomar = async () => {
-  try {
-    const users = await Customar.find();
-    return users;
-  } catch (error) {
-    throw new Error("Failed to fetch user by ID");
+const getUserProfileData = async (token: string): Promise<IUser | null> => {
+  if (!token) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "User not exist");
   }
+
+  let verifiedToken: any;
+  try {
+    verifiedToken = jwtHelpers.verifyToken(token, config.jwt.secret as Secret);
+  } catch (err) {
+    throw new ApiError(httpStatus.NOT_ACCEPTABLE, "Token is not valide");
+  }
+
+  const { userId } = verifiedToken;
+
+  // Check if the user exists
+  const userData = await User.findById(userId).lean();
+
+  if (!userData) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  if (userData.role) {
+    const userProfileInfo = await User.findOne({ _id: userData._id })
+      .populate(userData.role)
+      .lean();
+
+    return userProfileInfo;
+  }
+
+  return userData;
 };
 
 export const UserServices = {
@@ -214,5 +240,5 @@ export const UserServices = {
   createCustomarService,
   createDonarService,
   createAdminService,
-  getAllCustomar,
+  getUserProfileData,
 };
