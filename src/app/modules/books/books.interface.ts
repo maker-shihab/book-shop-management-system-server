@@ -5,13 +5,15 @@ export interface IBook extends Document {
   _id: Types.ObjectId;
   title: string;
   author?: Types.ObjectId | ISeller;
+  writter: string;
   description: string;
   category: string;
   price?: number;
   inStock: number;
   bookCover: string;
+  isFeatured?: boolean;
+  isDonated?: boolean;
   bookStatus?: BookStatus;
-  isDonated: boolean;
   bookCondition: BookCondition;
   publicCationDate: Date;
 }

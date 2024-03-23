@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { BookCondition, IBook } from "./books.interface";
+import { BookCondition, BookStatus, IBook } from "./books.interface";
 
 const bookSchema = new Schema<IBook>({
   title: {
@@ -12,9 +12,12 @@ const bookSchema = new Schema<IBook>({
     ref: "Seller",
     required: true,
   },
-  description: {
+  writter: {
     type: String,
     required: true,
+  },
+  description: {
+    type: String,
   },
   category: {
     type: String,
@@ -33,7 +36,14 @@ const bookSchema = new Schema<IBook>({
   },
   isDonated: {
     type: Boolean,
-    required: true,
+  },
+  isFeatured: {
+    type: Boolean,
+  },
+  bookStatus: {
+    type: String,
+    enum: Object.values(BookStatus),
+    default: BookStatus.Active,
   },
   bookCondition: {
     type: String,
