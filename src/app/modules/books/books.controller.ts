@@ -72,7 +72,7 @@ const getFeaturedBoooks: RequestHandler = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       data: books,
-      message: "Book retrip successfull",
+      message: "Books fetched successfully",
     });
   }
 );
@@ -86,7 +86,7 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IBook[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Students fetched successfully!",
+    message: "Books fetched successfully",
     meta: result.meta,
     data: result.data,
   });

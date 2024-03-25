@@ -122,6 +122,7 @@ const updateBookStatus = async (bookId: string, status: BookStatus) => {
       "Book not found for update status"
     );
   }
+
   const updatedBook = await BookModel.findByIdAndUpdate(
     bookId,
     { status },
