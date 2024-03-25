@@ -86,7 +86,7 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IBook[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Students fetched successfully !",
+    message: "Students fetched successfully!",
     meta: result.meta,
     data: result.data,
   });
@@ -105,6 +105,32 @@ const updateBookStatus = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteBook: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const bookId = req.params.id;
+    await bookServices.deleteBook(bookId);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Book deleted successfully!",
+    });
+  }
+);
+
+const bookUpdate = catchAsync(async (req: Request, res: Response) => {
+  const bookId = req.params.id;
+  const updatedBookData = req.body;
+  const result = await bookServices.bookUpdate(bookId, updatedBookData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    data: result,
+    message: "Book updated successfully",
+  });
+});
+
 export const bookController = {
   createBook,
   updateBook,
@@ -113,4 +139,6 @@ export const bookController = {
   getBooksByContition,
   getDonationBooks,
   getFeaturedBoooks,
+  deleteBook,
+  bookUpdate,
 };

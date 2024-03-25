@@ -131,6 +131,34 @@ const updateBookStatus = async (bookId: string, status: BookStatus) => {
   return updatedBook;
 };
 
+const deleteBook = async (bookId: string) => {
+  if (!bookId) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Book not found!");
+  }
+  try {
+    await BookModel.findByIdAndDelete(bookId);
+  } catch (error) {
+    throw new ApiError(httpStatus.BAD_REQUEST, `${error}`);
+  }
+};
+
+const bookUpdate = async (bookId: string, bookData: IBook) => {
+  if (!bookId && !bookData) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Book data mismatch!");
+  }
+  try {
+    const updatedBook = await BookModel.findByIdAndUpdate(bookId, bookData, {
+      new: true,
+    });
+    return updatedBook;
+  } catch (error) {
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      `Book update unsuccessfully ${error}`
+    );
+  }
+};
+
 export const bookServices = {
   createBook,
   updateBook,
@@ -139,4 +167,6 @@ export const bookServices = {
   getDonationBooks,
   getBooksByContition,
   getFeaturedBoooks,
+  deleteBook,
+  bookUpdate,
 };
