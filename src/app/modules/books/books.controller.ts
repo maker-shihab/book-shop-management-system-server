@@ -1,8 +1,10 @@
 import { Request, RequestHandler, Response } from "express";
 import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
+import pick from "../../../shared/pick";
 import sendResponse from "../../../shared/sendResponse";
-import { IBook } from "./books.interface";
+import { paginationFields } from "./books.constant";
+import { BookCondition, IBook, bookFilterableFields } from "./books.interface";
 import { bookServices } from "./books.services";
 
 const createBook: RequestHandler = catchAsync(
@@ -33,9 +35,25 @@ const updateBook: RequestHandler = catchAsync(
   }
 );
 
-const getAllBooks: RequestHandler = catchAsync(
+const getBooksByContition: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const books = await bookServices.getAllBooks();
+    const condition: BookCondition = req.params.condition as BookCondition;
+
+    const featuredBooks: IBook[] | null =
+      await bookServices.getBooksByContition(condition);
+
+    sendResponse<IBook[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      data: featuredBooks,
+      message: "Book retrip successfull",
+    });
+  }
+);
+
+const getDonationBooks: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const books = await bookServices.getDonationBooks();
 
     sendResponse<IBook[]>(res, {
       statusCode: httpStatus.OK,
@@ -46,12 +64,32 @@ const getAllBooks: RequestHandler = catchAsync(
   }
 );
 
-const buyBook = catchAsync(async (req: Request, res: Response) => {
-  const data = req.body;
-  const { customarId, bookInfo } = data;
+const getFeaturedBoooks: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const books = await bookServices.getFeaturedBoooks();
 
-  const result = await bookServices.buyBook(customarId, bookInfo);
-  return result;
+    sendResponse<IBook[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      data: books,
+      message: "Book retrip successfull",
+    });
+  }
+);
+
+const getAllBooks = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, bookFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+
+  const result = await bookServices.getAllBooks(filters, paginationOptions);
+
+  sendResponse<IBook[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Students fetched successfully !",
+    meta: result.meta,
+    data: result.data,
+  });
 });
 
 const updateBookStatus = catchAsync(async (req: Request, res: Response) => {
@@ -71,6 +109,8 @@ export const bookController = {
   createBook,
   updateBook,
   getAllBooks,
-  buyBook,
   updateBookStatus,
+  getBooksByContition,
+  getDonationBooks,
+  getFeaturedBoooks,
 };

@@ -1,10 +1,10 @@
 import { Types } from "mongoose";
-import { ISeller } from "../seller/seller.interface";
+import { IUser } from "../user/user.interface";
 
 export interface IBook extends Document {
   _id: Types.ObjectId;
   title: string;
-  author?: Types.ObjectId | ISeller;
+  author?: Types.ObjectId | IUser;
   writter: string;
   description: string;
   category: string;
@@ -28,3 +28,35 @@ export enum BookStatus {
   Pending = "Pending",
   Rejected = "Rejected",
 }
+
+export type GetBooksOptions = {
+  searchTerm?: string;
+  id?: string;
+  bloodGroup?: string;
+  email?: string;
+  contactNo?: string;
+  emergencyContactNo?: string;
+};
+
+export type IPaginationOptions = {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+};
+
+export const bookSearchableFields = [
+  "title",
+  "writter",
+  "category",
+  "description",
+];
+
+export const bookFilterableFields = [
+  "searchTerm",
+  "id",
+  "bloodGroup",
+  "email",
+  "contactNo",
+  "emergencyContactNo",
+];

@@ -5,38 +5,13 @@ import sendResponse from "../../../shared/sendResponse";
 import User from "./user.model";
 import { UserServices } from "./user.services";
 
-export const createSeller = async (req: Request, res: Response) => {
-  const { seller, ...userData } = req.body;
+export const createUser = async (req: Request, res: Response) => {
+  const userData = req.body;
+  const result = await UserServices.createUser(userData);
 
-  const result = await UserServices.createSellerService(seller, userData);
-
-  // const {password, ...usesrAllInfo} = result;
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "User Create Successfull",
-    data: result,
-  });
-};
-
-export const createCustomar = async (req: Request, res: Response) => {
-  const { customar, ...newUser } = req.body;
-
-  const result = await UserServices.createCustomarService(customar, newUser);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "User Create Successfull",
-    data: result,
-  });
-};
-
-export const createDonar = async (req: Request, res: Response) => {
-  const { donar, ...newUser } = req.body;
-
-  const result = await UserServices.createDonarService(donar, newUser);
+  if (result === null) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "User Information mismatch");
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -47,9 +22,9 @@ export const createDonar = async (req: Request, res: Response) => {
 };
 
 export const createAdmin = async (req: Request, res: Response) => {
-  const { admin, ...newUser } = req.body;
+  const { newUser } = req.body;
 
-  const result = await UserServices.createAdminService(admin, newUser);
+  const result = await UserServices.createAdminService(newUser);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -80,20 +55,16 @@ const getUserProfileData = async (req: Request, res: Response) => {
   }
   const result = await UserServices.getUserProfileData(token);
 
-  const { ...userData } = result;
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "User rettrive Successfull",
-    data: userData,
+    data: result,
   });
 };
 
 export const UserController = {
-  createSeller,
+  createUser,
   createAdmin,
-  createCustomar,
-  createDonar,
   getUserProfileData,
 };

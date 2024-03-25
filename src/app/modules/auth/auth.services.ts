@@ -4,7 +4,7 @@ import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import ApiError from "../../../errors/ApiError";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
-import { default as User, default as UserModel } from "../user/user.model";
+import { default as User } from "../user/user.model";
 import {
   ILoginUser,
   ILoginUserResponse,
@@ -19,7 +19,7 @@ const login = async (
     throw new ApiError(httpStatus.NOT_FOUND, "Not found login information");
   }
 
-  const user = await UserModel.findOne({
+  const user = await User.findOne({
     $or: [{ userName: identifier }, { email: identifier }],
   });
 

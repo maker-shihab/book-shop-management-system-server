@@ -1,10 +1,19 @@
 import mongoose, { Schema } from "mongoose";
-import { IUser, UserInfo } from "./user.interface";
+import { IUser } from "./user.interface";
 
 const userSchema = new Schema<IUser>(
   {
     role: {
       type: String,
+      required: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
     },
     userName: {
       type: String,
@@ -14,24 +23,40 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
-    password: { type: String, required: true },
-    needsPasswordChange: { type: Boolean, required: true },
-    passwordChangedAt: { type: Date },
-    seller: {
-      type: Schema.Types.ObjectId,
-      ref: "Seller",
+    password: {
+      type: String,
+      required: true,
     },
-    customar: {
-      type: Schema.Types.ObjectId,
-      ref: "Customar",
+    needsPasswordChange: {
+      type: Boolean,
     },
-    donar: {
-      type: Schema.Types.ObjectId,
-      ref: "Donar",
+    passwordChangedAt: {
+      type: Date,
     },
-    admin: {
-      type: Schema.Types.ObjectId,
-      ref: "Admin",
+    phone: {
+      type: String,
+      required: true,
+    },
+    dateOfBirth: {
+      type: Date,
+    },
+    profileImage: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    zipCode: {
+      type: String,
     },
   },
   {
@@ -41,34 +66,6 @@ const userSchema = new Schema<IUser>(
     },
   }
 );
-
-export const UserInfoSchema = new Schema<UserInfo>({
-  phone: {
-    type: String,
-    required: true,
-  },
-  dateOfBirth: {
-    type: Date,
-  },
-  profileImage: {
-    type: String,
-  },
-  bio: {
-    type: String,
-  },
-  address: {
-    type: String,
-  },
-  city: {
-    type: String,
-  },
-  state: {
-    type: String,
-  },
-  zipCode: {
-    type: String,
-  },
-});
 
 const User = mongoose.model<IUser>("User", userSchema);
 
