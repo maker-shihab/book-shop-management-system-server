@@ -8,8 +8,13 @@ import cookieParser from "cookie-parser";
 
 const app: Application = express();
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://book-shop-management-system-client.vercel.app",
+];
 
+// Configure CORS middleware
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(cookieParser());
 
 //parser
