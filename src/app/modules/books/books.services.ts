@@ -61,8 +61,8 @@ const getAllBooks = async (
     });
   }
 
-  // Dynamic  Sort needs  field to  do sorting
   const sortConditions: { [key: string]: SortOrder } = {};
+
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
@@ -108,6 +108,43 @@ const getBooksByContition = async (
   return featuredBooks;
 };
 
+const getAllBooksByUser = async (userId: string) => {
+  if (!userId) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Missing required fields: bookId"
+    );
+  }
+  const findBook = await BookModel.find({ author: userId });
+  if (!findBook) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Book not found for update status"
+    );
+  }
+  return findBook;
+};
+
+const getSingleBook = async (bookId: string) => {
+  if (!bookId) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Missing required fields: bookId"
+    );
+  }
+
+  const findBook = await BookModel.findById(bookId);
+
+  if (!findBook) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Book not found for update status"
+    );
+  }
+
+  return findBook;
+};
+
 const updateBookStatus = async (bookId: string, status: BookStatus) => {
   if (!bookId || status) {
     throw new ApiError(
@@ -115,7 +152,7 @@ const updateBookStatus = async (bookId: string, status: BookStatus) => {
       "Missing required fields: bookId and status"
     );
   }
-  const findBook = BookModel.findById(bookId);
+  const findBook = await BookModel.findById(bookId);
   if (!findBook) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
@@ -168,6 +205,8 @@ export const bookServices = {
   getDonationBooks,
   getBooksByContition,
   getFeaturedBoooks,
+  getSingleBook,
+  getAllBooksByUser,
   deleteBook,
   bookUpdate,
 };

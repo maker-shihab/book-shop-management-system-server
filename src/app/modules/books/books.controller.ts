@@ -1,5 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import httpStatus from "http-status";
+import ApiError from "../../../errors/ApiError";
 import catchAsync from "../../../shared/catchAsync";
 import pick from "../../../shared/pick";
 import sendResponse from "../../../shared/sendResponse";
@@ -92,6 +93,45 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllBooksByUser = catchAsync(async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.authorId;
+    console.log(userId);
+    const result = await bookServices.getAllBooksByUser(userId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      data: result,
+      message: "Books retrip successfull",
+    });
+  } catch (error) {
+    console.log(error);
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "Internal Server Error"
+    );
+  }
+});
+
+const getSingleBook = catchAsync(async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params._id;
+    const result = await bookServices.getSingleBook(bookId);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      data: result,
+      message: "Book retrieval successful",
+    });
+  } catch (error) {
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "Internal Server Error"
+    );
+  }
+});
+
 const updateBookStatus = catchAsync(async (req: Request, res: Response) => {
   const { bookId } = req.params;
   const { status } = req.body;
@@ -139,6 +179,8 @@ export const bookController = {
   getBooksByContition,
   getDonationBooks,
   getFeaturedBoooks,
+  getAllBooksByUser,
+  getSingleBook,
   deleteBook,
   bookUpdate,
 };
