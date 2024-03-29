@@ -57,6 +57,14 @@ We welcome contributions from the community to improve the Book Shop Management 
 
 Thank you for considering contributing to our project!
 
+## For Search and Filter
+
+- http://localhost:5000/api/v1/books/featured/${condition}
+- http://localhost:5000/api/v1/books?searchTerm=Test
+- http://localhost:5000/api/v1/books?page=1&limit=2&sortBy=price&sortOrder=asc
+
+## Live Link: [BooksNook's](https://github.com/maker-shihab).
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
